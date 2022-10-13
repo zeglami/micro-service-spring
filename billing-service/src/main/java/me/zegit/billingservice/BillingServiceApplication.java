@@ -1,8 +1,10 @@
 package me.zegit.billingservice;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.config.Projection;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.persistence.*;
@@ -31,6 +35,9 @@ class Bill {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date billingDate;
+	@Transient
+	private Customer customer;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private long customerID;
 	@OneToMany(mappedBy = "bill")
 	private Collection<ProductItem> productItems;
@@ -63,10 +70,14 @@ class ProductItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Transient// dont serialize to save in the data base
+	private Product product;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private long productID;
 	private double price;
 	private double quantity;
 	@ManyToOne
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//JSON IGNORE
 	private Bill bill;
 }
 
@@ -96,7 +107,12 @@ class Product {
 interface  InventoryService{
 	@GetMapping("/products/{id}")
 	public Product findProductById(@PathVariable(name="id") Long id);
+
+	@GetMapping("/products")
+	public PagedModel<Product> findAllProducts();
 }
+
+
 
 @SpringBootApplication
 @EnableFeignClients
@@ -124,14 +140,44 @@ public class BillingServiceApplication {
 			System.out.println(p1.toString());
 			System.out.println(p1.getName());
 			System.out.println("------------------------------------------------");
-		Bill bill1=	billRepository.save(new Bill(null,new Date(),1L,null));
-			productItemRepository.save(new ProductItem(null, p1.getId(), p1.getPrice(), 30,bill1));
-			Product p2=inventoryService.findProductById(2L);
-			productItemRepository.save(new ProductItem(null, p2.getId(), p2.getPrice(), 30,bill1));
-			Product p3=inventoryService.findProductById(2L);
-			productItemRepository.save(new ProductItem(null, p3.getId(), p3.getPrice(), 30,bill1));
+
+			Bill bill1=	billRepository.save(new Bill(null,new Date(),null,c1.getId(),null));
+			PagedModel<Product> products=inventoryService.findAllProducts();
+
+			products.getContent().forEach(
+
+					p->{
+						productItemRepository.save(new ProductItem(null, null,p.getId(), p.getPrice(), 30,bill1));
+					}
+
+			);
+
+
 
 		};
 	}
 
+}
+
+
+@RestController
+class BillRestControler{
+	@Autowired
+	private BillRepository billRepository;
+	@Autowired
+	private ProductItemRepository productItemRepository;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private InventoryService inventoryService;
+
+	@GetMapping("fullBill/{id}")
+	public Bill getBill(@PathVariable(name="id") Long id){
+		Bill bill=billRepository.findById(id).get();
+		bill.setCustomer(customerService.findCustomerById(bill.getCustomerID()));
+		bill.getProductItems().forEach(pi->{
+			pi.setProduct(inventoryService.findProductById(pi.getProductID()));
+		});
+		return bill;
+	}
 }

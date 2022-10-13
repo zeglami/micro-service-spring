@@ -1,0 +1,30 @@
+
+‡
+java:S1192t"qDefine a constant instead of duplicating this literal "------------------------------------------------" 4 times.(ù€•
+N	java:S106t"9Replace this use of System.out or System.err by a logger.(ù€•
+S	java:S106u"9Replace this use of System.out or System.err by a logger.(äÑéôÿÿÿÿÿ
+S	java:S106v"9Replace this use of System.out or System.err by a logger.(ˆ´—¿úÿÿÿÿ
+N	java:S106w"9Replace this use of System.out or System.err by a logger.(ù€•
+N	java:S106z"9Replace this use of System.out or System.err by a logger.(ù€•
+N	java:S106{"9Replace this use of System.out or System.err by a logger.(®“ŠÅ
+N	java:S106|"9Replace this use of System.out or System.err by a logger.(Óä‹ü
+N	java:S106}"9Replace this use of System.out or System.err by a logger.(ğ¼š
+N	java:S106~"9Replace this use of System.out or System.err by a logger.(ù€•
+E
+java:S1068!"/Remove this unused "billingDate" private field.(àØı«
+C
+java:S1068"".Remove this unused "customerID" private field.(èÇäb
+C
+java:S1068B"-Remove this unused "productID" private field.(ÍõÛ
+D
+java:S1068C")Remove this unused "price" private field.(ËŒÑÎúÿÿÿÿ
+G
+java:S1068D",Remove this unused "quantity" private field.(ñÒÅ²ùÿÿÿÿ
+A
+java:S1068K"&Remove this unused "id" private field.(şÓî«şÿÿÿÿ
+D
+java:S1068M")Remove this unused "email" private field.(ª«Õìùÿÿÿÿ
+A
+java:S1068Y"&Remove this unused "id" private field.(şÓî«şÿÿÿÿ
+D
+java:S1068[")Remove this unused "price" private field.(ËŒÑÎúÿÿÿÿ

@@ -45,7 +45,8 @@ Gateway Service: dynamic
 http://localhost:8888/CUSTOMER-SERVICE/customers/1
 http://localhost:8888/INVENTORY-SERVICE/products/1
 http://localhost:8888/BILLIG-SERVICE/bills/1?projection=full
-
+http://localhost:8888/INVENTORY-SERVICE/products
+http://localhost:8888/BILLIG-SERVICE/fullBill/1
 
 
 CUSTOMER-SERVICE
