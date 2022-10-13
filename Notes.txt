@@ -1,0 +1,61 @@
+
+----------------------
+Data Base H2
+----------------------
+http://localhost:8082/h2-console/
+
+----------------------
+Customer Service
+----------------------
+http://localhost:8081/customers/1
+
+----------------------
+Inventory Service
+----------------------
+
+http://localhost:8082/products/1
+
+
+----------------------
+Billing Service
+----------------------
+
+http://localhost:8084/bills/1?projection=full
+	
+
+
+----------------------
+Eurika Service
+----------------------
+
+http://localhost:8761/
+
+----------------------
+Gateway Service: static
+----------------------
+
+http://localhost:8888/customers/1
+http://localhost:8888/products/1
+
+
+
+----------------------
+Gateway Service: dynamic
+----------------------
+http://localhost:8888/CUSTOMER-SERVICE/customers/1
+http://localhost:8888/INVENTORY-SERVICE/products/1
+http://localhost:8888/BILLIG-SERVICE/bills/1?projection=full
+
+
+
+CUSTOMER-SERVICE
+
+
+
+--------------------------------------
+part 5: 23m
+--------------------------------------
+
+
+
+
