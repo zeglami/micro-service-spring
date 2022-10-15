@@ -49,6 +49,10 @@ http://localhost:8888/INVENTORY-SERVICE/products
 http://localhost:8888/BILLIG-SERVICE/fullBill/1
 
 
+external API
+http://localhost:8888/muslim/casablanca/1.json
+
+
 CUSTOMER-SERVICE
 
 
